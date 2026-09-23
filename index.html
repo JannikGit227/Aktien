@@ -3,72 +3,470 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sichere & Moderne Webseite</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Google Font für moderne Typografie -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>BHL Analytics – Dashboard</title>
+    <style>
+         /* ==========================================================================
+        1. VARIABLES & BASE STYLES
+        ========================================================================== */
+         :root {
+             --bg-color: #f0f2f5;
+             --card-bg: #ffffff;
+             --text-main: #1c1e21;
+             --text-muted: #65676b;
+             --border-color: #e4e6eb;
+             --accent-blue: #0078d7;
+             --accent-blue-hover: #005a9e;
+             --status-green-bg: #e6f4ea;
+             --status-green-text: #137333;
+             --status-yellow-bg: #fef7e0;
+             --status-yellow-text: #b06000;
+             --status-gray-bg: #f1f3f4;
+             --status-gray-text: #5f6368;
+             --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+             --radius-lg: 12px;
+             --radius-md: 8px;
+             --radius-sm: 4px;
+         }
+
+         * {
+             box-sizing: border-box;
+             margin: 0;
+             padding: 0;
+             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+         }
+
+         body {
+             background-color: var(--bg-color);
+             color: var(--text-main);
+             line-height: 1.5;
+             padding-bottom: 40px;
+         }
+
+         /* ==========================================================================
+        2. HEADER & NAVIGATION
+        ========================================================================== */
+         .header {
+             background-color: var(--card-bg);
+             border-bottom: 1px solid var(--border-color);
+             padding: 0 32px;
+             height: 64px;
+             display: flex;
+             align-items: center;
+             justify-content: space-between;
+             position: sticky;
+             top: 0;
+             z-index: 100;
+         }
+
+         .brand {
+             display: flex;
+             align-items: center;
+             gap: 12px;
+             font-weight: 700;
+             font-size: 1.1rem;
+             color: var(--text-main);
+         }
+
+         .logo-badge {
+             background-color: var(--text-main);
+             color: #fff;
+             padding: 4px 8px;
+             border-radius: var(--radius-sm);
+             font-size: 0.85rem;
+             letter-spacing: 1px;
+         }
+
+         .nav {
+             display: flex;
+             gap: 8px;
+         }
+
+         .nav-item {
+             text-decoration: none;
+             color: var(--text-muted);
+             padding: 8px 16px;
+             border-radius: var(--radius-md);
+             font-weight: 500;
+             font-size: 0.9rem;
+             transition: all 0.2s ease;
+         }
+
+             .nav-item:hover {
+                 background-color: var(--bg-color);
+                 color: var(--text-main);
+             }
+
+             .nav-item.active {
+                 background-color: rgba(0, 120, 215, 0.1);
+                 color: var(--accent-blue);
+             }
+
+         .btn-sync {
+             background-color: var(--accent-blue);
+             color: #fff;
+             border: none;
+             padding: 8px 16px;
+             border-radius: var(--radius-md);
+             font-weight: 600;
+             font-size: 0.85rem;
+             cursor: pointer;
+             display: flex;
+             align-items: center;
+             gap: 6px;
+             transition: background-color 0.2s ease;
+         }
+
+             .btn-sync:hover {
+                 background-color: var(--accent-blue-hover);
+             }
+
+         /* ==========================================================================
+        3. MAIN CONTAINER & GRID
+        ========================================================================== */
+         .container {
+             max-width: 1280px;
+             margin: 32px auto 0 auto;
+             padding: 0 24px;
+             display: flex;
+             flex-direction: column;
+             gap: 24px;
+         }
+
+         /* Metric Cards Grid */
+         .metrics-grid {
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+             gap: 16px;
+         }
+
+         .card {
+             background-color: var(--card-bg);
+             border-radius: var(--radius-lg);
+             padding: 20px 24px;
+             box-shadow: var(--shadow-sm);
+             border: 1px solid var(--border-color);
+         }
+
+         .card-title {
+             font-size: 0.85rem;
+             color: var(--text-muted);
+             text-transform: uppercase;
+             letter-spacing: 0.5px;
+             font-weight: 600;
+             margin-bottom: 8px;
+         }
+
+         .card-value {
+             font-size: 1.8rem;
+             font-weight: 700;
+             color: var(--text-main);
+             margin-bottom: 4px;
+         }
+
+         .card-subtext {
+             font-size: 0.85rem;
+             font-weight: 500;
+         }
+
+         .text-green {
+             color: var(--status-green-text);
+         }
+
+         .text-muted {
+             color: var(--text-muted);
+         }
+
+         /* Alert Banner */
+         .alert-banner {
+             background-color: #eef7ff;
+             border: 1px solid #bce0fd;
+             border-left: 4px solid var(--accent-blue);
+             border-radius: var(--radius-md);
+             padding: 14px 20px;
+             display: flex;
+             align-items: center;
+             gap: 12px;
+             font-size: 0.95rem;
+             color: #004085;
+         }
+
+         /* ==========================================================================
+        4. DATA TABLE SECTION
+        ========================================================================== */
+         .table-section {
+             display: flex;
+             flex-direction: column;
+             gap: 16px;
+         }
+
+         .table-header {
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+         }
+
+         .section-title {
+             font-size: 1.2rem;
+             font-weight: 700;
+         }
+
+         .table-controls {
+             display: flex;
+             gap: 12px;
+         }
+
+         .search-input {
+             padding: 8px 14px;
+             border: 1px solid var(--border-color);
+             border-radius: var(--radius-md);
+             font-size: 0.9rem;
+             outline: none;
+             width: 220px;
+         }
+
+             .search-input:focus {
+                 border-color: var(--accent-blue);
+             }
+
+         .table-wrapper {
+             overflow-x: auto;
+             background-color: var(--card-bg);
+             border-radius: var(--radius-lg);
+             box-shadow: var(--shadow-sm);
+             border: 1px solid var(--border-color);
+         }
+
+         .data-table {
+             width: 100%;
+             border-collapse: collapse;
+             text-align: left;
+             font-size: 0.9rem;
+         }
+
+             .data-table th {
+                 background-color: #fafafa;
+                 color: var(--text-muted);
+                 font-weight: 600;
+                 padding: 14px 18px;
+                 border-bottom: 1px solid var(--border-color);
+                 white-space: nowrap;
+             }
+
+             .data-table td {
+                 padding: 14px 18px;
+                 border-bottom: 1px solid var(--border-color);
+                 white-space: nowrap;
+             }
+
+             .data-table tbody tr:last-child td {
+                 border-bottom: none;
+             }
+
+             .data-table tbody tr:hover {
+                 background-color: #f8f9fa;
+             }
+
+         .fw-bold {
+             font-weight: 600;
+         }
+
+         /* Badges */
+         .badge {
+             display: inline-block;
+             padding: 4px 10px;
+             border-radius: 12px;
+             font-size: 0.75rem;
+             font-weight: 600;
+         }
+
+         .badge-alarm {
+             background-color: var(--status-green-bg);
+             color: var(--status-green-text);
+         }
+
+         .badge-normal {
+             background-color: var(--status-gray-bg);
+             color: var(--status-gray-text);
+         }
+
+         .badge-watch {
+             background-color: var(--status-yellow-bg);
+             color: var(--status-yellow-text);
+         }
+
+         /* ==========================================================================
+        5. AI SUMMARY WIDGET & FOOTER
+        ========================================================================== */
+         .ai-card {
+             background: linear-gradient(135deg, #ffffff 0%, #f4f8fc 100%);
+             border: 1px solid #d0e3f7;
+         }
+
+         .ai-header {
+             display: flex;
+             align-items: center;
+             gap: 8px;
+             font-weight: 700;
+             color: var(--accent-blue);
+             margin-bottom: 10px;
+             font-size: 0.95rem;
+         }
+
+         .ai-content {
+             color: #333;
+             font-size: 0.95rem;
+             line-height: 1.6;
+         }
+
+         .footer {
+             text-align: center;
+             margin-top: 24px;
+             font-size: 0.8rem;
+             color: var(--text-muted);
+         }
+    </style>
 </head>
 <body>
 
-    <!-- Animierter Hintergrund-Effekt -->
-    <div class="bg-glow"></div>
-    <div class="bg-grid"></div>
-
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="logo">PRO<span>PROJECT</span></div>
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#features">Features</a></li>
-            <li><a href="#about">Über mich</a></li>
-        </ul>
-    </nav>
-
-    <!-- Hero Section mit Glassmorphism-Overlay -->
-    <header id="home" class="hero-section">
-        <div class="hero-card">
-            <span class="badge">Kostenlos & Sicher Hosted</span>
-            <h1>Elegantes Design trifft auf hohe Performance</h1>
-            <p>Dies ist ein Platzhalter-Text für deine neue Webseite. Vollständig responsive, abgesichert und weltweit erreichbar über CDN.</p>
-            <div class="hero-buttons">
-                <a href="#features" class="btn btn-primary">Mehr erfahren</a>
-                <a href="#about" class="btn btn-secondary">Kontakt</a>
-            </div>
+    <!-- HEADER NAVIGATION -->
+    <header class="header">
+        <div class="brand">
+            <span class="logo-badge">BHL</span>
+            <span>Analytics</span>
         </div>
+        <nav class="nav">
+            <a href="#" class="nav-item active">Dashboard</a>
+            <a href="#" class="nav-item">Portfolio</a>
+            <a href="#" class="nav-item">Top 10</a>
+            <a href="#" class="nav-item">Kaufalarm</a>
+        </nav>
+        <button class="btn-sync">
+            <span>↺</span> Synchronisieren
+        </button>
     </header>
 
-    <!-- Content Section (Platzhalter-Karten) -->
-    <main id="features" class="container">
-        <h2 class="section-title">Features & Module</h2>
-        <div class="grid">
+    <!-- MAIN CONTAINER -->
+    <main class="container">
 
+        <!-- TOP KPI CARDS -->
+        <section class="metrics-grid">
             <div class="card">
-                <div class="card-icon">⚡</div>
-                <h3>Maximaler Speed</h3>
-                <p>Platzhalter: Statische Auslieferung sorgt für extrem kurze Ladezeiten weltweit ohne Server-Verzögerung.</p>
+                <div class="card-title">Portfolio Gesamtwert</div>
+                <div class="card-value">14.850,00 €</div>
+                <div class="card-subtext text-green">▲ +320,50 € vs. Vormonat</div>
             </div>
 
             <div class="card">
-                <div class="card-icon">🔒</div>
-                <h3>Unangreifbar</h3>
-                <p>Platzhalter: Keine Datenbanken oder angreifbare Server-Skripte – maximale Sicherheit per Design.</p>
+                <div class="card-title">Jährliche Dividende (p.a.)</div>
+                <div class="card-value">542,30 €</div>
+                <div class="card-subtext text-muted">Rendite: 3,65% • Netto nach Steuer</div>
             </div>
 
             <div class="card">
-                <div class="card-icon">🚀</div>
-                <h3>Automatisch Live</h3>
-                <p>Platzhalter: Änderungen in Visual Studio committen und innerhalb von Minuten automatisch im Netz sehen.</p>
+                <div class="card-title">Top Performer</div>
+                <div class="card-value">Microsoft (MSFT)</div>
+                <div class="card-subtext text-green">Final Score: 18.2</div>
+            </div>
+        </section>
+
+        <!-- ALERT BANNER -->
+        <section class="alert-banner">
+            <span>🚨</span>
+            <div>
+                <strong>Kauf-Alarm:</strong> 3 unterbewertete Aktien mit hohem Score identifiziert (u.a. <em>Allianz SE</em>, <em>Novo Nordisk</em>).
+            </div>
+        </section>
+
+        <!-- TABLE SECTION -->
+        <section class="table-section">
+            <div class="table-header">
+                <h2 class="section-title">Portfolio & Markt-Analyse</h2>
+                <div class="table-controls">
+                    <input type="text" class="search-input" placeholder="🔍 Suche nach Name/WKN...">
+                </div>
             </div>
 
-        </div>
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>WKN</th>
+                            <th>Name</th>
+                            <th>Kurs</th>
+                            <th>Anzahl</th>
+                            <th>Dividende %</th>
+                            <th>Netto Div.</th>
+                            <th>Kapitalzuwachs</th>
+                            <th>Final Score</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>846900</td>
+                            <td class="fw-bold">Allianz SE</td>
+                            <td>285,40 €</td>
+                            <td>15</td>
+                            <td>4,83%</td>
+                            <td>13,80 €</td>
+                            <td class="text-green">+2,10%</td>
+                            <td class="fw-bold">16.8</td>
+                            <td><span class="badge badge-alarm">🟢 Alarm</span></td>
+                        </tr>
+                        <tr>
+                            <td>A1JX52</td>
+                            <td class="fw-bold">Vanguard FTSE All-World</td>
+                            <td>118,20 €</td>
+                            <td>45</td>
+                            <td>3,12%</td>
+                            <td>3,69 €</td>
+                            <td class="text-green">+1,45%</td>
+                            <td class="fw-bold">15.2</td>
+                            <td><span class="badge badge-normal">⚪ Normal</span></td>
+                        </tr>
+                        <tr>
+                            <td>865985</td>
+                            <td class="fw-bold">Apple Inc.</td>
+                            <td>215,10 €</td>
+                            <td>8</td>
+                            <td>0,52%</td>
+                            <td>1,12 €</td>
+                            <td style="color: #d93025;">-0,15%</td>
+                            <td class="fw-bold">12.1</td>
+                            <td><span class="badge badge-normal">⚪ Normal</span></td>
+                        </tr>
+                        <tr>
+                            <td>853888</td>
+                            <td class="fw-bold">BASF SE</td>
+                            <td>44,30 €</td>
+                            <td>80</td>
+                            <td>7,67%</td>
+                            <td>3,40 €</td>
+                            <td style="color: #d93025;">-1,20%</td>
+                            <td class="fw-bold">11.4</td>
+                            <td><span class="badge badge-watch">🟡 Beobachten</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- AI OLLAMA SUMMARY WIDGET -->
+        <section class="card ai-card">
+            <div class="ai-header">
+                <span>🤖</span> KI-Zusammenfassung &amp; Analyse (Ollama Agent)
+            </div>
+            <p class="ai-content">
+                "Die Top-Dividendenwerte zeigen diesen Monat ein starkes Gewinnwachstum (2024). Das Portfolio konnte trotz leicht höherer Quellensteuer bei US-Titeln eine Nettorendite von über 3,6% halten. Bei BASF SE liegt die Gesamtrendite unter dem Ziel-Score, daher empfiehlt sich ein genauerer Blick auf die kommenden Quartalszahlen."
+            </p>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            © 2026 BHL Media Analytics • Daten-Stand: 24.09.2026 • Synchronisiert mit C++ Win32 Desktop App
+        </footer>
+
     </main>
-
-    <!-- Footer -->
-    <footer id="about">
-        <p>&copy; 2026 Mein Web-Projekt. Bereitgestellt über GitHub Pages.</p>
-    </footer>
 
 </body>
 </html>
