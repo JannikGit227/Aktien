@@ -1,81 +1,144 @@
 ﻿<!DOCTYPE html>
-<html lang="de" data-theme="light">
+<html lang="de" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BHL Media – Stock Analytics</title>
+    <title>BHL Media – Cyber Analytics</title>
     <style>
          /* ==========================================================================
-        1. COLOR THEMES & CSS VARIABLES
+        1. COLOR THEMES & DYNAMIC MESH BACKGROUND
         ========================================================================== */
+         :root[data-theme="dark"] {
+             --bg-base: #0a0a10;
+             --card-bg: rgba(20, 20, 32, 0.55);
+             --card-border: rgba(255, 255, 255, 0.12);
+             --glass-glow: rgba(168, 85, 247, 0.15);
+             --text-main: #ffffff;
+             --text-muted: #94a3b8;
+             --header-bg: rgba(10, 10, 16, 0.6);
+             --table-header-bg: rgba(255, 255, 255, 0.03);
+             --table-row-hover: rgba(255, 255, 255, 0.06);
+             --accent-grad: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #3b82f6 100%);
+             --accent-color: #a855f7;
+             --shadow-glow: 0 8px 32px 0 rgba(168, 85, 247, 0.2);
+             --status-green-bg: rgba(34, 197, 94, 0.25);
+             --status-green-text: #4ade80;
+             --status-yellow-bg: rgba(234, 179, 8, 0.25);
+             --status-yellow-text: #fde047;
+             --status-gray-bg: rgba(148, 163, 184, 0.2);
+             --status-gray-text: #cbd5e1;
+         }
+
          :root[data-theme="light"] {
-             --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-             --card-bg: rgba(255, 255, 255, 0.9);
-             --card-border: rgba(228, 232, 240, 0.8);
-             --text-main: #111827;
-             --text-muted: #6b7280;
-             --header-bg: rgba(255, 255, 255, 0.8);
-             --table-header-bg: #f9fafb;
-             --table-row-hover: #f3f4f6;
-             --accent-primary: #0078d7;
-             --accent-hover: #005a9e;
-             --accent-glow: rgba(0, 120, 215, 0.15);
-             --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+             --bg-base: #f1f5f9;
+             --card-bg: rgba(255, 255, 255, 0.7);
+             --card-border: rgba(255, 255, 255, 0.8);
+             --glass-glow: rgba(99, 102, 241, 0.1);
+             --text-main: #0f172a;
+             --text-muted: #64748b;
+             --header-bg: rgba(241, 245, 249, 0.7);
+             --table-header-bg: rgba(0, 0, 0, 0.03);
+             --table-row-hover: rgba(0, 0, 0, 0.04);
+             --accent-grad: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+             --accent-color: #6366f1;
+             --shadow-glow: 0 10px 30px rgba(99, 102, 241, 0.15);
              --status-green-bg: #dcfce7;
              --status-green-text: #15803d;
              --status-yellow-bg: #fef9c3;
              --status-yellow-text: #a16207;
-             --status-gray-bg: #f3f4f6;
-             --status-gray-text: #4b5563;
-         }
-
-         :root[data-theme="dark"] {
-             --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-             --card-bg: rgba(30, 41, 59, 0.85);
-             --card-border: rgba(51, 65, 85, 0.8);
-             --text-main: #f8fafc;
-             --text-muted: #94a3b8;
-             --header-bg: rgba(15, 23, 42, 0.85);
-             --table-header-bg: #1e293b;
-             --table-row-hover: #334155;
-             --accent-primary: #38bdf8;
-             --accent-hover: #0284c7;
-             --accent-glow: rgba(56, 189, 248, 0.25);
-             --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-             --status-green-bg: rgba(22, 101, 52, 0.4);
-             --status-green-text: #4ade80;
-             --status-yellow-bg: rgba(133, 77, 14, 0.4);
-             --status-yellow-text: #fde047;
-             --status-gray-bg: rgba(71, 85, 105, 0.4);
-             --status-gray-text: #cbd5e1;
+             --status-gray-bg: #e2e8f0;
+             --status-gray-text: #475569;
          }
 
          * {
              box-sizing: border-box;
              margin: 0;
              padding: 0;
-             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
-             transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
          }
 
          body {
-             background: var(--bg-gradient);
-             background-attachment: fixed;
+             background-color: var(--bg-base);
              color: var(--text-main);
              min-height: 100vh;
-             padding-bottom: 40px;
+             padding-bottom: 50px;
+             position: relative;
+             overflow-x: hidden;
          }
 
          /* ==========================================================================
-        2. GLASSMORPHISM HEADER
+        2. ANIMATED BACKGROUND (Orbs & Gradient Mesh)
+        ========================================================================== */
+         .bg-mesh {
+             position: fixed;
+             top: 0;
+             left: 0;
+             width: 100vw;
+             height: 100vh;
+             z-index: -1;
+             overflow: hidden;
+             pointer-events: none;
+         }
+
+         .orb {
+             position: absolute;
+             border-radius: 50%;
+             filter: blur(90px);
+             opacity: 0.5;
+             animation: float 18s infinite alternate ease-in-out;
+         }
+
+         .orb-1 {
+             width: 500px;
+             height: 500px;
+             background: #ec4899;
+             top: -100px;
+             left: -100px;
+         }
+
+         .orb-2 {
+             width: 600px;
+             height: 600px;
+             background: #8b5cf6;
+             bottom: -150px;
+             right: -100px;
+             animation-delay: -5s;
+         }
+
+         .orb-3 {
+             width: 400px;
+             height: 400px;
+             background: #3b82f6;
+             top: 40%;
+             left: 30%;
+             animation-delay: -10s;
+         }
+
+         @keyframes float {
+             0% {
+                 transform: translate(0, 0) scale(1);
+             }
+
+             50% {
+                 transform: translate(60px, 80px) scale(1.1);
+             }
+
+             100% {
+                 transform: translate(-40px, 40px) scale(0.9);
+             }
+         }
+
+         /* ==========================================================================
+        3. GLASSMORPHISM HEADER
         ========================================================================== */
          .header {
              background: var(--header-bg);
-             backdrop-filter: blur(12px);
-             -webkit-backdrop-filter: blur(12px);
+             backdrop-filter: blur(16px);
+             -webkit-backdrop-filter: blur(16px);
              border-bottom: 1px solid var(--card-border);
-             padding: 0 32px;
-             height: 68px;
+             padding: 0 40px;
+             height: 76px;
              display: flex;
              align-items: center;
              justify-content: space-between;
@@ -89,142 +152,141 @@
              align-items: center;
              gap: 12px;
              font-weight: 800;
-             font-size: 1.15rem;
+             font-size: 1.25rem;
              letter-spacing: -0.5px;
          }
 
          .logo-badge {
-             background: linear-gradient(135deg, var(--accent-primary), var(--accent-hover));
+             background: var(--accent-grad);
              color: #ffffff;
-             padding: 5px 10px;
-             border-radius: 8px;
-             font-size: 0.85rem;
-             letter-spacing: 1.5px;
-             box-shadow: 0 2px 8px var(--accent-glow);
+             padding: 6px 12px;
+             border-radius: 10px;
+             font-size: 0.9rem;
+             letter-spacing: 2px;
+             box-shadow: var(--shadow-glow);
          }
 
          .nav {
              display: flex;
-             gap: 6px;
-             background: var(--card-border);
-             padding: 4px;
-             border-radius: 10px;
+             gap: 8px;
+             background: rgba(255, 255, 255, 0.05);
+             padding: 6px;
+             border-radius: 14px;
+             border: 1px solid var(--card-border);
          }
 
          .nav-item {
              text-decoration: none;
              color: var(--text-muted);
-             padding: 6px 16px;
-             border-radius: 7px;
+             padding: 8px 18px;
+             border-radius: 10px;
              font-weight: 600;
-             font-size: 0.85rem;
+             font-size: 0.88rem;
+             transition: all 0.2s ease;
          }
 
-             .nav-item.active {
-                 background-color: var(--card-bg);
+             .nav-item:hover {
                  color: var(--text-main);
-                 box-shadow: var(--shadow-card);
+             }
+
+             .nav-item.active {
+                 background: var(--card-bg);
+                 color: var(--text-main);
+                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                 border: 1px solid var(--card-border);
              }
 
          .header-actions {
              display: flex;
              align-items: center;
-             gap: 12px;
+             gap: 14px;
          }
 
-         /* Theme Toggle Switch */
-         .theme-toggle {
-             background: var(--card-border);
-             border: none;
+         .theme-toggle, .btn-sync {
+             background: var(--card-bg);
+             border: 1px solid var(--card-border);
              color: var(--text-main);
-             padding: 8px 14px;
-             border-radius: 8px;
-             font-size: 0.85rem;
+             padding: 10px 18px;
+             border-radius: 12px;
+             font-size: 0.88rem;
              font-weight: 600;
              cursor: pointer;
+             backdrop-filter: blur(10px);
              display: flex;
              align-items: center;
-             gap: 6px;
+             gap: 8px;
+             transition: all 0.2s ease;
          }
 
-             .theme-toggle:hover {
-                 opacity: 0.9;
+             .theme-toggle:hover, .btn-sync:hover {
+                 transform: translateY(-2px);
+                 box-shadow: var(--shadow-glow);
+                 border-color: var(--accent-color);
              }
 
          .btn-sync {
-             background: var(--accent-primary);
-             color: #ffffff;
+             background: var(--accent-grad);
+             color: #fff;
              border: none;
-             padding: 8px 16px;
-             border-radius: 8px;
-             font-weight: 600;
-             font-size: 0.85rem;
-             cursor: pointer;
-             box-shadow: 0 4px 12px var(--accent-glow);
          }
 
-             .btn-sync:hover {
-                 background: var(--accent-hover);
-             }
-
          /* ==========================================================================
-        3. LAYOUT & CARDS
+        4. CONTAINER & GLASS CARDS
         ========================================================================== */
          .container {
-             max-width: 1280px;
-             margin: 32px auto 0 auto;
+             max-width: 1300px;
+             margin: 40px auto 0 auto;
              padding: 0 24px;
              display: flex;
              flex-direction: column;
-             gap: 24px;
+             gap: 32px;
          }
 
          .metrics-grid {
              display: grid;
-             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-             gap: 20px;
+             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+             gap: 24px;
          }
 
-         .card {
+         .glass-card {
              background: var(--card-bg);
-             backdrop-filter: blur(8px);
-             -webkit-backdrop-filter: blur(8px);
-             border-radius: 16px;
-             padding: 22px 26px;
-             box-shadow: var(--shadow-card);
+             backdrop-filter: blur(20px);
+             -webkit-backdrop-filter: blur(20px);
+             border-radius: 20px;
+             padding: 26px;
              border: 1px solid var(--card-border);
+             box-shadow: var(--shadow-glow);
              position: relative;
              overflow: hidden;
+             transition: transform 0.3s ease, border-color 0.3s ease;
          }
 
-             .card::before {
-                 content: '';
-                 position: absolute;
-                 top: 0;
-                 left: 0;
-                 width: 100%;
-                 height: 3px;
-                 background: linear-gradient(90deg, var(--accent-primary), transparent);
+             .glass-card:hover {
+                 transform: translateY(-4px);
+                 border-color: rgba(255, 255, 255, 0.25);
              }
 
          .card-title {
-             font-size: 0.8rem;
+             font-size: 0.82rem;
              color: var(--text-muted);
              text-transform: uppercase;
-             letter-spacing: 0.8px;
+             letter-spacing: 1px;
              font-weight: 700;
-             margin-bottom: 8px;
+             margin-bottom: 12px;
          }
 
          .card-value {
-             font-size: 1.9rem;
+             font-size: 2.2rem;
              font-weight: 800;
-             letter-spacing: -0.5px;
-             margin-bottom: 6px;
+             letter-spacing: -1px;
+             margin-bottom: 8px;
+             background: var(--accent-grad);
+             -webkit-background-clip: text;
+             -webkit-text-fill-color: transparent;
          }
 
          .card-subtext {
-             font-size: 0.85rem;
+             font-size: 0.88rem;
              font-weight: 500;
          }
 
@@ -239,24 +301,25 @@
          /* Alert Banner */
          .alert-banner {
              background: var(--card-bg);
+             backdrop-filter: blur(16px);
              border: 1px solid var(--card-border);
-             border-left: 4px solid var(--accent-primary);
-             border-radius: 12px;
-             padding: 16px 20px;
+             border-left: 4px solid #ec4899;
+             border-radius: 16px;
+             padding: 18px 24px;
              display: flex;
              align-items: center;
-             gap: 14px;
+             gap: 16px;
              font-size: 0.95rem;
-             box-shadow: var(--shadow-card);
+             box-shadow: var(--shadow-glow);
          }
 
          /* ==========================================================================
-        4. DATA TABLE
+        5. DATA TABLE
         ========================================================================== */
          .table-section {
              display: flex;
              flex-direction: column;
-             gap: 16px;
+             gap: 20px;
          }
 
          .table-header {
@@ -266,56 +329,58 @@
          }
 
          .section-title {
-             font-size: 1.25rem;
+             font-size: 1.4rem;
              font-weight: 800;
-             letter-spacing: -0.3px;
+             letter-spacing: -0.5px;
          }
 
          .search-input {
              background: var(--card-bg);
+             backdrop-filter: blur(10px);
              color: var(--text-main);
-             padding: 9px 16px;
+             padding: 12px 20px;
              border: 1px solid var(--card-border);
-             border-radius: 10px;
-             font-size: 0.88rem;
+             border-radius: 14px;
+             font-size: 0.9rem;
              outline: none;
-             width: 240px;
-             box-shadow: var(--shadow-card);
+             width: 280px;
          }
 
              .search-input:focus {
-                 border-color: var(--accent-primary);
+                 border-color: var(--accent-color);
+                 box-shadow: var(--shadow-glow);
              }
 
          .table-wrapper {
              overflow-x: auto;
              background: var(--card-bg);
-             border-radius: 16px;
-             box-shadow: var(--shadow-card);
+             backdrop-filter: blur(20px);
+             border-radius: 20px;
              border: 1px solid var(--card-border);
+             box-shadow: var(--shadow-glow);
          }
 
          .data-table {
              width: 100%;
              border-collapse: collapse;
              text-align: left;
-             font-size: 0.9rem;
+             font-size: 0.92rem;
          }
 
              .data-table th {
                  background: var(--table-header-bg);
                  color: var(--text-muted);
                  font-weight: 700;
-                 padding: 16px 20px;
+                 padding: 18px 24px;
                  border-bottom: 1px solid var(--card-border);
                  white-space: nowrap;
                  text-transform: uppercase;
                  font-size: 0.75rem;
-                 letter-spacing: 0.5px;
+                 letter-spacing: 0.8px;
              }
 
              .data-table td {
-                 padding: 16px 20px;
+                 padding: 18px 24px;
                  border-bottom: 1px solid var(--card-border);
                  white-space: nowrap;
              }
@@ -332,14 +397,13 @@
              font-weight: 700;
          }
 
-         /* Badges */
          .badge {
              display: inline-flex;
              align-items: center;
-             gap: 4px;
-             padding: 4px 12px;
-             border-radius: 20px;
-             font-size: 0.78rem;
+             gap: 6px;
+             padding: 6px 14px;
+             border-radius: 30px;
+             font-size: 0.8rem;
              font-weight: 700;
          }
 
@@ -359,38 +423,52 @@
          }
 
          /* ==========================================================================
-        5. AI SUMMARY WIDGET & FOOTER
+        6. AI WIDGET & FOOTER
         ========================================================================== */
          .ai-card {
-             background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 120, 215, 0.05) 100%);
+             position: relative;
          }
 
          .ai-header {
              display: flex;
              align-items: center;
-             gap: 10px;
+             gap: 12px;
              font-weight: 800;
-             color: var(--accent-primary);
-             margin-bottom: 12px;
-             font-size: 0.95rem;
+             color: var(--text-main);
+             margin-bottom: 14px;
+             font-size: 1.05rem;
+         }
+
+         .ai-badge {
+             background: var(--accent-grad);
+             color: #fff;
+             font-size: 0.75rem;
+             padding: 4px 10px;
+             border-radius: 6px;
          }
 
          .ai-content {
-             color: var(--text-main);
-             font-size: 0.95rem;
-             line-height: 1.6;
-             opacity: 0.9;
+             color: var(--text-muted);
+             font-size: 0.98rem;
+             line-height: 1.7;
          }
 
          .footer {
              text-align: center;
-             margin-top: 24px;
-             font-size: 0.8rem;
+             margin-top: 30px;
+             font-size: 0.85rem;
              color: var(--text-muted);
          }
     </style>
 </head>
 <body>
+
+    <!-- ANIMATED BACKGROUND MESH -->
+    <div class="bg-mesh">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
 
     <!-- HEADER NAVIGATION -->
     <header class="header">
@@ -407,9 +485,8 @@
         </nav>
 
         <div class="header-actions">
-            <!-- Dark / Light Mode Switcher Button -->
             <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()">
-                <span id="themeIcon">🌙</span> <span id="themeText">Dark</span>
+                <span id="themeIcon">☀️</span> <span id="themeText">Light</span>
             </button>
 
             <button class="btn-sync">
@@ -423,19 +500,19 @@
 
         <!-- METRIC CARDS -->
         <section class="metrics-grid">
-            <div class="card">
+            <div class="glass-card">
                 <div class="card-title">Portfolio Gesamtwert</div>
                 <div class="card-value">14.850,00 €</div>
                 <div class="card-subtext text-green">▲ +320,50 € vs. Vormonat</div>
             </div>
 
-            <div class="card">
+            <div class="glass-card">
                 <div class="card-title">Erwartete Dividende (p.a.)</div>
                 <div class="card-value">542,30 €</div>
                 <div class="card-subtext text-muted">Rendite: 3,65% • Netto nach Steuer</div>
             </div>
 
-            <div class="card">
+            <div class="glass-card">
                 <div class="card-title">Top-Performer Score</div>
                 <div class="card-value">Microsoft (MSFT)</div>
                 <div class="card-subtext text-green">Final Score: 18.2</div>
@@ -444,7 +521,7 @@
 
         <!-- ALERT BANNER -->
         <section class="alert-banner">
-            <span style="font-size: 1.2rem;">🚨</span>
+            <span style="font-size: 1.4rem;">🔥</span>
             <div>
                 <strong>Kauf-Alarm:</strong> 3 unterbewertete Aktien mit hohem Score identifiziert (u.a. <em>Allianz SE</em>, <em>Novo Nordisk</em>).
             </div>
@@ -523,23 +600,23 @@
         </section>
 
         <!-- AI SUMMARY WIDGET -->
-        <section class="card ai-card">
+        <section class="glass-card ai-card">
             <div class="ai-header">
-                <span>🤖</span> KI-Zusammenfassung &amp; Analyse (Ollama Agent)
+                <span>🤖 KI-Analyse</span>
+                <span class="ai-badge">Ollama Agent</span>
             </div>
             <p class="ai-content">
-                "Die Top-Dividendenwerte zeigen diesen Monat ein starkes Gewinnwachstum (2024). Das Portfolio konnte trotz leicht höherer Quellensteuer bei US-Titeln eine Nettorendite von über 3,6% halten..."
+                "Die Top-Dividendenwerte zeigen diesen Monat ein starkes Gewinnwachstum. Das Portfolio konnte trotz leicht höherer Quellensteuer bei US-Titeln eine Nettorendite von über 3,6% halten..."
             </p>
         </section>
 
         <!-- FOOTER -->
         <footer class="footer">
-            © 2026 BHL Media Analytics • Daten-Stand: 24.09.2026 • Synchronisiert mit C++ Win32 Desktop App
+            © 2026 BHL Media Analytics • Synchronisiert mit C++ Win32 Desktop App
         </footer>
 
     </main>
 
-    <!-- SCRIPT FOR DARK/LIGHT MODE TOGGLE -->
     <script>
         function toggleTheme() {
         const html = document.documentElement;
@@ -548,7 +625,6 @@
 
         html.setAttribute('data-theme', newTheme);
         localStorage.setItem('bhl_theme', newTheme);
-
         updateToggleUI(newTheme);
         }
 
@@ -564,14 +640,12 @@
         }
         }
 
-        // Auto-detect preferred theme on initial load
         (function initTheme() {
         const savedTheme = localStorage.getItem('bhl_theme');
         if (savedTheme) {
         document.documentElement.setAttribute('data-theme', savedTheme);
         updateToggleUI(savedTheme);
-        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.documentElement.setAttribute('data-theme', dark);
+        } else {
         updateToggleUI('dark');
         }
         })();
