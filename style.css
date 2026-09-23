@@ -1,19 +1,18 @@
 ﻿/* ==========================================================================
-   1. COLOR THEMES & DYNAMIC MESH BACKGROUND
+   1. COLOR THEMES & CSS VARIABLES
    ========================================================================== */
 :root[data-theme="dark"] {
     --bg-base: #0a0a10;
-    --card-bg: rgba(20, 20, 32, 0.55);
+    --card-bg: rgba(20, 20, 32, 0.65);
     --card-border: rgba(255, 255, 255, 0.12);
-    --glass-glow: rgba(168, 85, 247, 0.15);
     --text-main: #ffffff;
     --text-muted: #94a3b8;
-    --header-bg: rgba(10, 10, 16, 0.6);
-    --table-header-bg: rgba(255, 255, 255, 0.03);
+    --header-bg: rgba(10, 10, 16, 0.85);
+    --table-header-bg: rgba(255, 255, 255, 0.04);
     --table-row-hover: rgba(255, 255, 255, 0.06);
     --accent-grad: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #3b82f6 100%);
     --accent-color: #a855f7;
-    --shadow-glow: 0 8px 32px 0 rgba(168, 85, 247, 0.2);
+    --shadow-glow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     --status-green-bg: rgba(34, 197, 94, 0.25);
     --status-green-text: #4ade80;
     --status-yellow-bg: rgba(234, 179, 8, 0.25);
@@ -25,17 +24,16 @@
 
 :root[data-theme="light"] {
     --bg-base: #f1f5f9;
-    --card-bg: rgba(255, 255, 255, 0.7);
-    --card-border: rgba(255, 255, 255, 0.8);
-    --glass-glow: rgba(99, 102, 241, 0.1);
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --card-border: rgba(226, 232, 240, 0.8);
     --text-main: #0f172a;
     --text-muted: #64748b;
-    --header-bg: rgba(241, 245, 249, 0.7);
+    --header-bg: rgba(241, 245, 249, 0.9);
     --table-header-bg: rgba(0, 0, 0, 0.03);
     --table-row-hover: rgba(0, 0, 0, 0.04);
     --accent-grad: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
     --accent-color: #6366f1;
-    --shadow-glow: 0 10px 30px rgba(99, 102, 241, 0.15);
+    --shadow-glow: 0 10px 30px rgba(0, 0, 0, 0.05);
     --status-green-bg: #dcfce7;
     --status-green-text: #15803d;
     --status-yellow-bg: #fef9c3;
@@ -53,17 +51,22 @@
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden; /* Verhindert ungewolltes horizontales Scrollen der gesamten Seite */
+}
+
 body {
     background-color: var(--bg-base);
     color: var(--text-main);
     min-height: 100vh;
     padding-bottom: 50px;
     position: relative;
-    overflow-x: hidden;
 }
 
 /* ==========================================================================
-   2. ANIMATED BACKGROUND (Orbs & Gradient Mesh)
+   2. ANIMATED BACKGROUND MESH
    ========================================================================== */
 .bg-mesh {
     position: fixed;
@@ -80,21 +83,21 @@ body {
     position: absolute;
     border-radius: 50%;
     filter: blur(90px);
-    opacity: 0.5;
+    opacity: 0.4;
     animation: float 18s infinite alternate ease-in-out;
 }
 
 .orb-1 {
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
     background: #ec4899;
     top: -100px;
     left: -100px;
 }
 
 .orb-2 {
-    width: 600px;
-    height: 600px;
+    width: 500px;
+    height: 500px;
     background: #8b5cf6;
     bottom: -150px;
     right: -100px;
@@ -102,8 +105,8 @@ body {
 }
 
 .orb-3 {
-    width: 400px;
-    height: 400px;
+    width: 300px;
+    height: 300px;
     background: #3b82f6;
     top: 40%;
     left: 30%;
@@ -116,108 +119,98 @@ body {
     }
 
     50% {
-        transform: translate(60px, 80px) scale(1.1);
+        transform: translate(40px, 50px) scale(1.1);
     }
 
     100% {
-        transform: translate(-40px, 40px) scale(0.9);
+        transform: translate(-30px, 30px) scale(0.9);
     }
 }
 
 /* ==========================================================================
-   3. GLASSMORPHISM HEADER
+   3. RESPONSIVE HEADER NAVIGATION
    ========================================================================== */
 .header {
     background: var(--header-bg);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--card-border);
-    padding: 0 40px;
-    height: 76px;
+    padding: 12px 20px;
     display: flex;
+    flex-wrap: wrap; /* Erlaubt Umbruch auf Mobilgeräten */
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
     position: sticky;
     top: 0;
     z-index: 100;
+    width: 100%;
 }
 
 .brand {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     font-weight: 800;
-    font-size: 1.25rem;
-    letter-spacing: -0.5px;
+    font-size: 1.1rem;
 }
 
 .logo-badge {
     background: var(--accent-grad);
     color: #ffffff;
-    padding: 6px 12px;
-    border-radius: 10px;
-    font-size: 0.9rem;
-    letter-spacing: 2px;
-    box-shadow: var(--shadow-glow);
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
 }
 
 .nav {
     display: flex;
-    gap: 8px;
+    gap: 4px;
     background: rgba(255, 255, 255, 0.05);
-    padding: 6px;
-    border-radius: 14px;
+    padding: 4px;
+    border-radius: 12px;
     border: 1px solid var(--card-border);
+    overflow-x: auto; /* Horizontales Scrollen der Tabs auf kleinen Screens */
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
 }
 
 .nav-item {
     text-decoration: none;
     color: var(--text-muted);
-    padding: 8px 18px;
-    border-radius: 10px;
+    padding: 6px 14px;
+    border-radius: 8px;
     font-weight: 600;
-    font-size: 0.88rem;
-    transition: all 0.2s ease;
+    font-size: 0.82rem;
+    white-space: nowrap;
 }
-
-    .nav-item:hover {
-        color: var(--text-main);
-    }
 
     .nav-item.active {
         background: var(--card-bg);
         color: var(--text-main);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         border: 1px solid var(--card-border);
     }
 
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 8px;
 }
 
 .theme-toggle, .btn-sync {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     color: var(--text-main);
-    padding: 10px 18px;
-    border-radius: 12px;
-    font-size: 0.88rem;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 0.82rem;
     font-weight: 600;
     cursor: pointer;
-    backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
-    gap: 8px;
-    transition: all 0.2s ease;
+    gap: 6px;
 }
-
-    .theme-toggle:hover, .btn-sync:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-glow);
-        border-color: var(--accent-color);
-    }
 
 .btn-sync {
     background: var(--accent-grad);
@@ -225,63 +218,75 @@ body {
     border: none;
 }
 
+/* Mobile Adjustments for Header */
+@media (max-width: 768px) {
+    .header {
+        padding: 10px 14px;
+    }
+
+    .brand-title {
+        display: none; /* Blendet "Aktien-News" Text auf sehr kleinen Handys aus */
+    }
+
+    .nav {
+        order: 3; /* Nav-Tabs auf Mobilgeräten in eine eigene Zeile verschieben */
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
 /* ==========================================================================
-   4. CONTAINER & GLASS CARDS
+   4. MAIN CONTAINER & CARDS
    ========================================================================== */
 .container {
-    max-width: 1300px;
-    margin: 40px auto 0 auto;
-    padding: 0 24px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto 0 auto;
+    padding: 0 16px;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 20px;
 }
 
 .metrics-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    width: 100%;
 }
 
 .glass-card {
     background: var(--card-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-radius: 20px;
-    padding: 26px;
+    border-radius: 16px;
+    padding: 20px;
     border: 1px solid var(--card-border);
     box-shadow: var(--shadow-glow);
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    width: 100%;
 }
 
-    .glass-card:hover {
-        transform: translateY(-4px);
-        border-color: rgba(255, 255, 255, 0.25);
-    }
-
 .card-title {
-    font-size: 0.82rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.8px;
     font-weight: 700;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
 .card-value {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     font-weight: 800;
-    letter-spacing: -1px;
-    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
     background: var(--accent-grad);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .card-subtext {
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     font-weight: 500;
 }
 
@@ -303,110 +308,93 @@ body {
     backdrop-filter: blur(16px);
     border: 1px solid var(--card-border);
     border-left: 4px solid #ec4899;
-    border-radius: 16px;
-    padding: 18px 24px;
+    border-radius: 14px;
+    padding: 14px 18px;
     display: flex;
     align-items: center;
-    gap: 16px;
-    font-size: 0.95rem;
-    box-shadow: var(--shadow-glow);
-}
-
-.alert-icon {
-    font-size: 1.4rem;
+    gap: 12px;
+    font-size: 0.88rem;
+    width: 100%;
 }
 
 /* ==========================================================================
-   5. DATA TABLE
+   5. TABLE SECTION & RESPONSIVE SCROLL
    ========================================================================== */
 .table-section {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 14px;
+    width: 100%;
 }
 
 .table-header {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
 }
 
 .section-title {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 800;
-    letter-spacing: -0.5px;
 }
 
 .search-input {
     background: var(--card-bg);
-    backdrop-filter: blur(10px);
     color: var(--text-main);
-    padding: 12px 20px;
+    padding: 10px 16px;
     border: 1px solid var(--card-border);
-    border-radius: 14px;
-    font-size: 0.9rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
     outline: none;
-    width: 280px;
+    width: 100%;
+    max-width: 280px;
 }
 
-    .search-input:focus {
-        border-color: var(--accent-color);
-        box-shadow: var(--shadow-glow);
-    }
-
 .table-wrapper {
-    overflow-x: auto;
+    width: 100%;
+    overflow-x: auto; /* Aktiviert horizontales Wischen auf Mobilgeräten für Tabellen */
+    -webkit-overflow-scrolling: touch;
     background: var(--card-bg);
     backdrop-filter: blur(20px);
-    border-radius: 20px;
+    border-radius: 16px;
     border: 1px solid var(--card-border);
     box-shadow: var(--shadow-glow);
 }
 
 .data-table {
     width: 100%;
+    min-width: 650px; /* Erzwingt eine konsistente Breite, damit Spalten auf Handys nicht gequetscht werden */
     border-collapse: collapse;
     text-align: left;
-    font-size: 0.92rem;
+    font-size: 0.88rem;
 }
 
     .data-table th {
         background: var(--table-header-bg);
         color: var(--text-muted);
         font-weight: 700;
-        padding: 18px 24px;
+        padding: 14px 18px;
         border-bottom: 1px solid var(--card-border);
-        white-space: nowrap;
         text-transform: uppercase;
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         letter-spacing: 0.8px;
     }
 
     .data-table td {
-        padding: 18px 24px;
+        padding: 14px 18px;
         border-bottom: 1px solid var(--card-border);
         white-space: nowrap;
     }
 
-    .data-table tbody tr:last-child td {
-        border-bottom: none;
-    }
-
-    .data-table tbody tr:hover {
-        background: var(--table-row-hover);
-    }
-
-.fw-bold {
-    font-weight: 700;
-}
-
 .badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 14px;
-    border-radius: 30px;
-    font-size: 0.8rem;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
     font-weight: 700;
 }
 
@@ -428,37 +416,32 @@ body {
 /* ==========================================================================
    6. AI WIDGET & FOOTER
    ========================================================================== */
-.ai-card {
-    position: relative;
-}
-
 .ai-header {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
     font-weight: 800;
-    color: var(--text-main);
-    margin-bottom: 14px;
-    font-size: 1.05rem;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
 }
 
 .ai-badge {
     background: var(--accent-grad);
     color: #fff;
-    font-size: 0.75rem;
-    padding: 4px 10px;
+    font-size: 0.7rem;
+    padding: 3px 8px;
     border-radius: 6px;
 }
 
 .ai-content {
     color: var(--text-muted);
-    font-size: 0.98rem;
-    line-height: 1.7;
+    font-size: 0.9rem;
+    line-height: 1.6;
 }
 
 .footer {
     text-align: center;
-    margin-top: 30px;
-    font-size: 0.85rem;
+    margin-top: 20px;
+    font-size: 0.8rem;
     color: var(--text-muted);
 }
