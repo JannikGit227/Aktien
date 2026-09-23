@@ -1,55 +1,81 @@
 ﻿<!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BHL Analytics – Dashboard</title>
+    <title>BHL Media – Stock Analytics</title>
     <style>
          /* ==========================================================================
-        1. VARIABLES & BASE STYLES
+        1. COLOR THEMES & CSS VARIABLES
         ========================================================================== */
-         :root {
-             --bg-color: #f0f2f5;
-             --card-bg: #ffffff;
-             --text-main: #1c1e21;
-             --text-muted: #65676b;
-             --border-color: #e4e6eb;
-             --accent-blue: #0078d7;
-             --accent-blue-hover: #005a9e;
-             --status-green-bg: #e6f4ea;
-             --status-green-text: #137333;
-             --status-yellow-bg: #fef7e0;
-             --status-yellow-text: #b06000;
-             --status-gray-bg: #f1f3f4;
-             --status-gray-text: #5f6368;
-             --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
-             --radius-lg: 12px;
-             --radius-md: 8px;
-             --radius-sm: 4px;
+         :root[data-theme="light"] {
+             --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+             --card-bg: rgba(255, 255, 255, 0.9);
+             --card-border: rgba(228, 232, 240, 0.8);
+             --text-main: #111827;
+             --text-muted: #6b7280;
+             --header-bg: rgba(255, 255, 255, 0.8);
+             --table-header-bg: #f9fafb;
+             --table-row-hover: #f3f4f6;
+             --accent-primary: #0078d7;
+             --accent-hover: #005a9e;
+             --accent-glow: rgba(0, 120, 215, 0.15);
+             --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+             --status-green-bg: #dcfce7;
+             --status-green-text: #15803d;
+             --status-yellow-bg: #fef9c3;
+             --status-yellow-text: #a16207;
+             --status-gray-bg: #f3f4f6;
+             --status-gray-text: #4b5563;
+         }
+
+         :root[data-theme="dark"] {
+             --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+             --card-bg: rgba(30, 41, 59, 0.85);
+             --card-border: rgba(51, 65, 85, 0.8);
+             --text-main: #f8fafc;
+             --text-muted: #94a3b8;
+             --header-bg: rgba(15, 23, 42, 0.85);
+             --table-header-bg: #1e293b;
+             --table-row-hover: #334155;
+             --accent-primary: #38bdf8;
+             --accent-hover: #0284c7;
+             --accent-glow: rgba(56, 189, 248, 0.25);
+             --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+             --status-green-bg: rgba(22, 101, 52, 0.4);
+             --status-green-text: #4ade80;
+             --status-yellow-bg: rgba(133, 77, 14, 0.4);
+             --status-yellow-text: #fde047;
+             --status-gray-bg: rgba(71, 85, 105, 0.4);
+             --status-gray-text: #cbd5e1;
          }
 
          * {
              box-sizing: border-box;
              margin: 0;
              padding: 0;
-             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+             transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
          }
 
          body {
-             background-color: var(--bg-color);
+             background: var(--bg-gradient);
+             background-attachment: fixed;
              color: var(--text-main);
-             line-height: 1.5;
+             min-height: 100vh;
              padding-bottom: 40px;
          }
 
          /* ==========================================================================
-        2. HEADER & NAVIGATION
+        2. GLASSMORPHISM HEADER
         ========================================================================== */
          .header {
-             background-color: var(--card-bg);
-             border-bottom: 1px solid var(--border-color);
+             background: var(--header-bg);
+             backdrop-filter: blur(12px);
+             -webkit-backdrop-filter: blur(12px);
+             border-bottom: 1px solid var(--card-border);
              padding: 0 32px;
-             height: 64px;
+             height: 68px;
              display: flex;
              align-items: center;
              justify-content: space-between;
@@ -62,66 +88,87 @@
              display: flex;
              align-items: center;
              gap: 12px;
-             font-weight: 700;
-             font-size: 1.1rem;
-             color: var(--text-main);
+             font-weight: 800;
+             font-size: 1.15rem;
+             letter-spacing: -0.5px;
          }
 
          .logo-badge {
-             background-color: var(--text-main);
-             color: #fff;
-             padding: 4px 8px;
-             border-radius: var(--radius-sm);
+             background: linear-gradient(135deg, var(--accent-primary), var(--accent-hover));
+             color: #ffffff;
+             padding: 5px 10px;
+             border-radius: 8px;
              font-size: 0.85rem;
-             letter-spacing: 1px;
+             letter-spacing: 1.5px;
+             box-shadow: 0 2px 8px var(--accent-glow);
          }
 
          .nav {
              display: flex;
-             gap: 8px;
+             gap: 6px;
+             background: var(--card-border);
+             padding: 4px;
+             border-radius: 10px;
          }
 
          .nav-item {
              text-decoration: none;
              color: var(--text-muted);
-             padding: 8px 16px;
-             border-radius: var(--radius-md);
-             font-weight: 500;
-             font-size: 0.9rem;
-             transition: all 0.2s ease;
-         }
-
-             .nav-item:hover {
-                 background-color: var(--bg-color);
-                 color: var(--text-main);
-             }
-
-             .nav-item.active {
-                 background-color: rgba(0, 120, 215, 0.1);
-                 color: var(--accent-blue);
-             }
-
-         .btn-sync {
-             background-color: var(--accent-blue);
-             color: #fff;
-             border: none;
-             padding: 8px 16px;
-             border-radius: var(--radius-md);
+             padding: 6px 16px;
+             border-radius: 7px;
              font-weight: 600;
              font-size: 0.85rem;
+         }
+
+             .nav-item.active {
+                 background-color: var(--card-bg);
+                 color: var(--text-main);
+                 box-shadow: var(--shadow-card);
+             }
+
+         .header-actions {
+             display: flex;
+             align-items: center;
+             gap: 12px;
+         }
+
+         /* Theme Toggle Switch */
+         .theme-toggle {
+             background: var(--card-border);
+             border: none;
+             color: var(--text-main);
+             padding: 8px 14px;
+             border-radius: 8px;
+             font-size: 0.85rem;
+             font-weight: 600;
              cursor: pointer;
              display: flex;
              align-items: center;
              gap: 6px;
-             transition: background-color 0.2s ease;
+         }
+
+             .theme-toggle:hover {
+                 opacity: 0.9;
+             }
+
+         .btn-sync {
+             background: var(--accent-primary);
+             color: #ffffff;
+             border: none;
+             padding: 8px 16px;
+             border-radius: 8px;
+             font-weight: 600;
+             font-size: 0.85rem;
+             cursor: pointer;
+             box-shadow: 0 4px 12px var(--accent-glow);
          }
 
              .btn-sync:hover {
-                 background-color: var(--accent-blue-hover);
+                 background: var(--accent-hover);
              }
 
          /* ==========================================================================
-        3. MAIN CONTAINER & GRID
+        3. LAYOUT & CARDS
         ========================================================================== */
          .container {
              max-width: 1280px;
@@ -132,35 +179,48 @@
              gap: 24px;
          }
 
-         /* Metric Cards Grid */
          .metrics-grid {
              display: grid;
-             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-             gap: 16px;
+             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+             gap: 20px;
          }
 
          .card {
-             background-color: var(--card-bg);
-             border-radius: var(--radius-lg);
-             padding: 20px 24px;
-             box-shadow: var(--shadow-sm);
-             border: 1px solid var(--border-color);
+             background: var(--card-bg);
+             backdrop-filter: blur(8px);
+             -webkit-backdrop-filter: blur(8px);
+             border-radius: 16px;
+             padding: 22px 26px;
+             box-shadow: var(--shadow-card);
+             border: 1px solid var(--card-border);
+             position: relative;
+             overflow: hidden;
          }
 
+             .card::before {
+                 content: '';
+                 position: absolute;
+                 top: 0;
+                 left: 0;
+                 width: 100%;
+                 height: 3px;
+                 background: linear-gradient(90deg, var(--accent-primary), transparent);
+             }
+
          .card-title {
-             font-size: 0.85rem;
+             font-size: 0.8rem;
              color: var(--text-muted);
              text-transform: uppercase;
-             letter-spacing: 0.5px;
-             font-weight: 600;
+             letter-spacing: 0.8px;
+             font-weight: 700;
              margin-bottom: 8px;
          }
 
          .card-value {
-             font-size: 1.8rem;
-             font-weight: 700;
-             color: var(--text-main);
-             margin-bottom: 4px;
+             font-size: 1.9rem;
+             font-weight: 800;
+             letter-spacing: -0.5px;
+             margin-bottom: 6px;
          }
 
          .card-subtext {
@@ -178,20 +238,20 @@
 
          /* Alert Banner */
          .alert-banner {
-             background-color: #eef7ff;
-             border: 1px solid #bce0fd;
-             border-left: 4px solid var(--accent-blue);
-             border-radius: var(--radius-md);
-             padding: 14px 20px;
+             background: var(--card-bg);
+             border: 1px solid var(--card-border);
+             border-left: 4px solid var(--accent-primary);
+             border-radius: 12px;
+             padding: 16px 20px;
              display: flex;
              align-items: center;
-             gap: 12px;
+             gap: 14px;
              font-size: 0.95rem;
-             color: #004085;
+             box-shadow: var(--shadow-card);
          }
 
          /* ==========================================================================
-        4. DATA TABLE SECTION
+        4. DATA TABLE
         ========================================================================== */
          .table-section {
              display: flex;
@@ -206,34 +266,33 @@
          }
 
          .section-title {
-             font-size: 1.2rem;
-             font-weight: 700;
-         }
-
-         .table-controls {
-             display: flex;
-             gap: 12px;
+             font-size: 1.25rem;
+             font-weight: 800;
+             letter-spacing: -0.3px;
          }
 
          .search-input {
-             padding: 8px 14px;
-             border: 1px solid var(--border-color);
-             border-radius: var(--radius-md);
-             font-size: 0.9rem;
+             background: var(--card-bg);
+             color: var(--text-main);
+             padding: 9px 16px;
+             border: 1px solid var(--card-border);
+             border-radius: 10px;
+             font-size: 0.88rem;
              outline: none;
-             width: 220px;
+             width: 240px;
+             box-shadow: var(--shadow-card);
          }
 
              .search-input:focus {
-                 border-color: var(--accent-blue);
+                 border-color: var(--accent-primary);
              }
 
          .table-wrapper {
              overflow-x: auto;
-             background-color: var(--card-bg);
-             border-radius: var(--radius-lg);
-             box-shadow: var(--shadow-sm);
-             border: 1px solid var(--border-color);
+             background: var(--card-bg);
+             border-radius: 16px;
+             box-shadow: var(--shadow-card);
+             border: 1px solid var(--card-border);
          }
 
          .data-table {
@@ -244,17 +303,20 @@
          }
 
              .data-table th {
-                 background-color: #fafafa;
+                 background: var(--table-header-bg);
                  color: var(--text-muted);
-                 font-weight: 600;
-                 padding: 14px 18px;
-                 border-bottom: 1px solid var(--border-color);
+                 font-weight: 700;
+                 padding: 16px 20px;
+                 border-bottom: 1px solid var(--card-border);
                  white-space: nowrap;
+                 text-transform: uppercase;
+                 font-size: 0.75rem;
+                 letter-spacing: 0.5px;
              }
 
              .data-table td {
-                 padding: 14px 18px;
-                 border-bottom: 1px solid var(--border-color);
+                 padding: 16px 20px;
+                 border-bottom: 1px solid var(--card-border);
                  white-space: nowrap;
              }
 
@@ -263,34 +325,36 @@
              }
 
              .data-table tbody tr:hover {
-                 background-color: #f8f9fa;
+                 background: var(--table-row-hover);
              }
 
          .fw-bold {
-             font-weight: 600;
+             font-weight: 700;
          }
 
          /* Badges */
          .badge {
-             display: inline-block;
-             padding: 4px 10px;
-             border-radius: 12px;
-             font-size: 0.75rem;
-             font-weight: 600;
+             display: inline-flex;
+             align-items: center;
+             gap: 4px;
+             padding: 4px 12px;
+             border-radius: 20px;
+             font-size: 0.78rem;
+             font-weight: 700;
          }
 
          .badge-alarm {
-             background-color: var(--status-green-bg);
+             background: var(--status-green-bg);
              color: var(--status-green-text);
          }
 
          .badge-normal {
-             background-color: var(--status-gray-bg);
+             background: var(--status-gray-bg);
              color: var(--status-gray-text);
          }
 
          .badge-watch {
-             background-color: var(--status-yellow-bg);
+             background: var(--status-yellow-bg);
              color: var(--status-yellow-text);
          }
 
@@ -298,24 +362,24 @@
         5. AI SUMMARY WIDGET & FOOTER
         ========================================================================== */
          .ai-card {
-             background: linear-gradient(135deg, #ffffff 0%, #f4f8fc 100%);
-             border: 1px solid #d0e3f7;
+             background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 120, 215, 0.05) 100%);
          }
 
          .ai-header {
              display: flex;
              align-items: center;
-             gap: 8px;
-             font-weight: 700;
-             color: var(--accent-blue);
-             margin-bottom: 10px;
+             gap: 10px;
+             font-weight: 800;
+             color: var(--accent-primary);
+             margin-bottom: 12px;
              font-size: 0.95rem;
          }
 
          .ai-content {
-             color: #333;
+             color: var(--text-main);
              font-size: 0.95rem;
              line-height: 1.6;
+             opacity: 0.9;
          }
 
          .footer {
@@ -332,23 +396,32 @@
     <header class="header">
         <div class="brand">
             <span class="logo-badge">BHL</span>
-            <span>Analytics</span>
+            <span>Stock Analytics</span>
         </div>
+
         <nav class="nav">
             <a href="#" class="nav-item active">Dashboard</a>
             <a href="#" class="nav-item">Portfolio</a>
             <a href="#" class="nav-item">Top 10</a>
             <a href="#" class="nav-item">Kaufalarm</a>
         </nav>
-        <button class="btn-sync">
-            <span>↺</span> Synchronisieren
-        </button>
+
+        <div class="header-actions">
+            <!-- Dark / Light Mode Switcher Button -->
+            <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()">
+                <span id="themeIcon">🌙</span> <span id="themeText">Dark</span>
+            </button>
+
+            <button class="btn-sync">
+                <span>↺</span> Sync
+            </button>
+        </div>
     </header>
 
     <!-- MAIN CONTAINER -->
     <main class="container">
 
-        <!-- TOP KPI CARDS -->
+        <!-- METRIC CARDS -->
         <section class="metrics-grid">
             <div class="card">
                 <div class="card-title">Portfolio Gesamtwert</div>
@@ -357,13 +430,13 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Jährliche Dividende (p.a.)</div>
+                <div class="card-title">Erwartete Dividende (p.a.)</div>
                 <div class="card-value">542,30 €</div>
                 <div class="card-subtext text-muted">Rendite: 3,65% • Netto nach Steuer</div>
             </div>
 
             <div class="card">
-                <div class="card-title">Top Performer</div>
+                <div class="card-title">Top-Performer Score</div>
                 <div class="card-value">Microsoft (MSFT)</div>
                 <div class="card-subtext text-green">Final Score: 18.2</div>
             </div>
@@ -371,7 +444,7 @@
 
         <!-- ALERT BANNER -->
         <section class="alert-banner">
-            <span>🚨</span>
+            <span style="font-size: 1.2rem;">🚨</span>
             <div>
                 <strong>Kauf-Alarm:</strong> 3 unterbewertete Aktien mit hohem Score identifiziert (u.a. <em>Allianz SE</em>, <em>Novo Nordisk</em>).
             </div>
@@ -380,10 +453,8 @@
         <!-- TABLE SECTION -->
         <section class="table-section">
             <div class="table-header">
-                <h2 class="section-title">Portfolio & Markt-Analyse</h2>
-                <div class="table-controls">
-                    <input type="text" class="search-input" placeholder="🔍 Suche nach Name/WKN...">
-                </div>
+                <h2 class="section-title">Portfolio &amp; Markt-Analyse</h2>
+                <input type="text" class="search-input" placeholder="🔍 Suche nach Name/WKN...">
             </div>
 
             <div class="table-wrapper">
@@ -431,7 +502,7 @@
                             <td>8</td>
                             <td>0,52%</td>
                             <td>1,12 €</td>
-                            <td style="color: #d93025;">-0,15%</td>
+                            <td style="color: #ef4444;">-0,15%</td>
                             <td class="fw-bold">12.1</td>
                             <td><span class="badge badge-normal">⚪ Normal</span></td>
                         </tr>
@@ -442,7 +513,7 @@
                             <td>80</td>
                             <td>7,67%</td>
                             <td>3,40 €</td>
-                            <td style="color: #d93025;">-1,20%</td>
+                            <td style="color: #ef4444;">-1,20%</td>
                             <td class="fw-bold">11.4</td>
                             <td><span class="badge badge-watch">🟡 Beobachten</span></td>
                         </tr>
@@ -451,13 +522,13 @@
             </div>
         </section>
 
-        <!-- AI OLLAMA SUMMARY WIDGET -->
+        <!-- AI SUMMARY WIDGET -->
         <section class="card ai-card">
             <div class="ai-header">
                 <span>🤖</span> KI-Zusammenfassung &amp; Analyse (Ollama Agent)
             </div>
             <p class="ai-content">
-                "Die Top-Dividendenwerte zeigen diesen Monat ein starkes Gewinnwachstum (2024). Das Portfolio konnte trotz leicht höherer Quellensteuer bei US-Titeln eine Nettorendite von über 3,6% halten. Bei BASF SE liegt die Gesamtrendite unter dem Ziel-Score, daher empfiehlt sich ein genauerer Blick auf die kommenden Quartalszahlen."
+                "Die Top-Dividendenwerte zeigen diesen Monat ein starkes Gewinnwachstum (2024). Das Portfolio konnte trotz leicht höherer Quellensteuer bei US-Titeln eine Nettorendite von über 3,6% halten..."
             </p>
         </section>
 
@@ -468,5 +539,42 @@
 
     </main>
 
+    <!-- SCRIPT FOR DARK/LIGHT MODE TOGGLE -->
+    <script>
+        function toggleTheme() {
+        const html = document.documentElement;
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('bhl_theme', newTheme);
+
+        updateToggleUI(newTheme);
+        }
+
+        function updateToggleUI(theme) {
+        const icon = document.getElementById('themeIcon');
+        const text = document.getElementById('themeText');
+        if (theme === 'dark') {
+        icon.textContent = '☀️';
+        text.textContent = 'Light';
+        } else {
+        icon.textContent = '🌙';
+        text.textContent = 'Dark';
+        }
+        }
+
+        // Auto-detect preferred theme on initial load
+        (function initTheme() {
+        const savedTheme = localStorage.getItem('bhl_theme');
+        if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateToggleUI(savedTheme);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', dark);
+        updateToggleUI('dark');
+        }
+        })();
+    </script>
 </body>
 </html>
