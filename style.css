@@ -1,57 +1,56 @@
 ﻿/* ==========================================================================
-   1. COLOR THEMES & VARIABLES
+   1. COLOR THEMES & DYNAMIC MESH BACKGROUND
    ========================================================================== */
 :root[data-theme="dark"] {
     --bg-base: #0a0a10;
-    --card-bg: rgba(20, 20, 32, 0.65);
+    --card-bg: rgba(20, 20, 32, 0.55);
     --card-border: rgba(255, 255, 255, 0.12);
     --glass-glow: rgba(168, 85, 247, 0.15);
     --text-main: #ffffff;
     --text-muted: #94a3b8;
-    --header-bg: rgba(10, 10, 16, 0.75);
+    --header-bg: rgba(10, 10, 16, 0.6);
     --table-header-bg: rgba(255, 255, 255, 0.03);
     --table-row-hover: rgba(255, 255, 255, 0.06);
     --accent-grad: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #3b82f6 100%);
     --accent-color: #a855f7;
-    --shadow-glow: 0 8px 32px 0 rgba(168, 85, 247, 0.18);
-    --status-green-bg: rgba(34, 197, 94, 0.2);
+    --shadow-glow: 0 8px 32px 0 rgba(168, 85, 247, 0.2);
+    --status-green-bg: rgba(34, 197, 94, 0.25);
     --status-green-text: #4ade80;
-    --status-yellow-bg: rgba(234, 179, 8, 0.2);
+    --status-yellow-bg: rgba(234, 179, 8, 0.25);
     --status-yellow-text: #fde047;
-    --status-gray-bg: rgba(148, 163, 184, 0.18);
+    --status-gray-bg: rgba(148, 163, 184, 0.2);
     --status-gray-text: #cbd5e1;
+    --status-red-text: #ef4444;
 }
 
 :root[data-theme="light"] {
     --bg-base: #f1f5f9;
-    --card-bg: rgba(255, 255, 255, 0.75);
+    --card-bg: rgba(255, 255, 255, 0.7);
     --card-border: rgba(255, 255, 255, 0.8);
     --glass-glow: rgba(99, 102, 241, 0.1);
     --text-main: #0f172a;
     --text-muted: #64748b;
-    --header-bg: rgba(241, 245, 249, 0.8);
+    --header-bg: rgba(241, 245, 249, 0.7);
     --table-header-bg: rgba(0, 0, 0, 0.03);
     --table-row-hover: rgba(0, 0, 0, 0.04);
     --accent-grad: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
     --accent-color: #6366f1;
-    --shadow-glow: 0 10px 30px rgba(99, 102, 241, 0.12);
+    --shadow-glow: 0 10px 30px rgba(99, 102, 241, 0.15);
     --status-green-bg: #dcfce7;
     --status-green-text: #15803d;
     --status-yellow-bg: #fef9c3;
     --status-yellow-text: #a16207;
     --status-gray-bg: #e2e8f0;
     --status-gray-text: #475569;
+    --status-red-text: #dc2626;
 }
 
-/* ==========================================================================
-   2. GLOBAL RESET & BASE STYLES
-   ========================================================================== */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
-    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 body {
@@ -64,7 +63,7 @@ body {
 }
 
 /* ==========================================================================
-   3. ANIMATED BACKGROUND (GPU OPTIMIZED)
+   2. ANIMATED BACKGROUND (Orbs & Gradient Mesh)
    ========================================================================== */
 .bg-mesh {
     position: fixed;
@@ -75,66 +74,63 @@ body {
     z-index: -1;
     overflow: hidden;
     pointer-events: none;
-    transform: translateZ(0);
-    contain: strict;
 }
 
 .orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(45px);
-    opacity: 0.45;
-    will-change: transform;
-    animation: float 22s infinite alternate ease-in-out;
+    filter: blur(90px);
+    opacity: 0.5;
+    animation: float 18s infinite alternate ease-in-out;
 }
 
 .orb-1 {
-    width: 360px;
-    height: 360px;
+    width: 500px;
+    height: 500px;
     background: #ec4899;
-    top: -50px;
-    left: -50px;
+    top: -100px;
+    left: -100px;
 }
 
 .orb-2 {
-    width: 420px;
-    height: 420px;
+    width: 600px;
+    height: 600px;
     background: #8b5cf6;
-    bottom: -80px;
-    right: -50px;
-    animation-delay: -7s;
+    bottom: -150px;
+    right: -100px;
+    animation-delay: -5s;
 }
 
 .orb-3 {
-    width: 280px;
-    height: 280px;
+    width: 400px;
+    height: 400px;
     background: #3b82f6;
-    top: 35%;
-    left: 25%;
-    animation-delay: -14s;
+    top: 40%;
+    left: 30%;
+    animation-delay: -10s;
 }
 
 @keyframes float {
     0% {
-        transform: translate3d(0, 0, 0) scale(1);
+        transform: translate(0, 0) scale(1);
     }
 
     50% {
-        transform: translate3d(40px, 45px, 0) scale(1.04);
+        transform: translate(60px, 80px) scale(1.1);
     }
 
     100% {
-        transform: translate3d(-30px, 25px, 0) scale(0.96);
+        transform: translate(-40px, 40px) scale(0.9);
     }
 }
 
 /* ==========================================================================
-   4. GLASSMORPHISM HEADER
+   3. GLASSMORPHISM HEADER
    ========================================================================== */
 .header {
     background: var(--header-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--card-border);
     padding: 0 40px;
     height: 76px;
@@ -168,7 +164,7 @@ body {
 .nav {
     display: flex;
     gap: 8px;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.05);
     padding: 6px;
     border-radius: 14px;
     border: 1px solid var(--card-border);
@@ -210,11 +206,11 @@ body {
     font-size: 0.88rem;
     font-weight: 600;
     cursor: pointer;
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: all 0.2s ease;
 }
 
     .theme-toggle:hover, .btn-sync:hover {
@@ -230,7 +226,7 @@ body {
 }
 
 /* ==========================================================================
-   5. CONTAINER & GLASS CARDS
+   4. CONTAINER & GLASS CARDS
    ========================================================================== */
 .container {
     max-width: 1300px;
@@ -243,27 +239,26 @@ body {
 
 .metrics-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 24px;
 }
 
 .glass-card {
     background: var(--card-bg);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-radius: 20px;
     padding: 26px;
     border: 1px solid var(--card-border);
     box-shadow: var(--shadow-glow);
     position: relative;
     overflow: hidden;
-    isolation: isolate;
-    transition: transform 0.25s ease, border-color 0.25s ease;
+    transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
     .glass-card:hover {
-        transform: translateY(-3px);
-        border-color: rgba(255, 255, 255, 0.22);
+        transform: translateY(-4px);
+        border-color: rgba(255, 255, 255, 0.25);
     }
 
 .card-title {
@@ -294,6 +289,10 @@ body {
     color: var(--status-green-text);
 }
 
+.text-red {
+    color: var(--status-red-text);
+}
+
 .text-muted {
     color: var(--text-muted);
 }
@@ -301,8 +300,7 @@ body {
 /* Alert Banner */
 .alert-banner {
     background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px);
     border: 1px solid var(--card-border);
     border-left: 4px solid #ec4899;
     border-radius: 16px;
@@ -314,8 +312,12 @@ body {
     box-shadow: var(--shadow-glow);
 }
 
+.alert-icon {
+    font-size: 1.4rem;
+}
+
 /* ==========================================================================
-   6. DATA TABLE
+   5. DATA TABLE
    ========================================================================== */
 .table-section {
     display: flex;
@@ -327,7 +329,6 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 16px;
 }
 
 .section-title {
@@ -339,7 +340,6 @@ body {
 .search-input {
     background: var(--card-bg);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     color: var(--text-main);
     padding: 12px 20px;
     border: 1px solid var(--card-border);
@@ -356,14 +356,11 @@ body {
 
 .table-wrapper {
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
     background: var(--card-bg);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(20px);
     border-radius: 20px;
     border: 1px solid var(--card-border);
     box-shadow: var(--shadow-glow);
-    isolation: isolate;
 }
 
 .data-table {
@@ -429,7 +426,7 @@ body {
 }
 
 /* ==========================================================================
-   7. AI WIDGET & FOOTER
+   6. AI WIDGET & FOOTER
    ========================================================================== */
 .ai-card {
     position: relative;
@@ -464,86 +461,4 @@ body {
     margin-top: 30px;
     font-size: 0.85rem;
     color: var(--text-muted);
-}
-
-/* ==========================================================================
-   8. MOBILE & TABLET RESPONSIVENESS (Media Queries)
-   ========================================================================== */
-@media (max-width: 900px) {
-    .header {
-        padding: 0 20px;
-        height: auto;
-        padding-top: 14px;
-        padding-bottom: 14px;
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-
-    .nav {
-        order: 3;
-        width: 100%;
-        justify-content: space-between;
-        overflow-x: auto;
-    }
-
-    .nav-item {
-        padding: 6px 12px;
-        font-size: 0.82rem;
-        white-space: nowrap;
-    }
-
-    .container {
-        margin-top: 20px;
-        padding: 0 16px;
-        gap: 20px;
-    }
-
-    .table-header {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .search-input {
-        width: 100%;
-    }
-
-    /* Kleinere Orbs für Smartphones für volle Performance */
-    .orb-1 {
-        width: 240px;
-        height: 240px;
-    }
-
-    .orb-2 {
-        width: 280px;
-        height: 280px;
-    }
-
-    .orb-3 {
-        width: 180px;
-        height: 180px;
-    }
-}
-
-@media (max-width: 480px) {
-    .brand {
-        font-size: 1.1rem;
-    }
-
-    .card-value {
-        font-size: 1.8rem;
-    }
-
-    .glass-card {
-        padding: 18px;
-    }
-
-    .alert-banner {
-        padding: 14px 16px;
-        font-size: 0.88rem;
-    }
-
-    .theme-toggle, .btn-sync {
-        padding: 8px 12px;
-        font-size: 0.8rem;
-    }
 }
