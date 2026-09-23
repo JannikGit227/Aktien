@@ -64,7 +64,7 @@ body {
 }
 
 /* ==========================================================================
-   3. ANIMATED BACKGROUND (HIGH PERFORMANCE 60 FPS)
+   3. ANIMATED BACKGROUND (GPU OPTIMIZED)
    ========================================================================== */
 .bg-mesh {
     position: fixed;
@@ -75,7 +75,6 @@ body {
     z-index: -1;
     overflow: hidden;
     pointer-events: none;
-    /* Isoliert die Ebene für GPU-Rasterisierung */
     transform: translateZ(0);
     contain: strict;
 }
@@ -83,7 +82,6 @@ body {
 .orb {
     position: absolute;
     border-radius: 50%;
-    /* Optimierter Blur: Liefert sanften Glow ohne GPU-Überlastung */
     filter: blur(45px);
     opacity: 0.45;
     will-change: transform;
@@ -116,7 +114,6 @@ body {
     animation-delay: -14s;
 }
 
-/* Hardware-beschleunigte Keyframe-Animation */
 @keyframes float {
     0% {
         transform: translate3d(0, 0, 0) scale(1);
@@ -246,7 +243,7 @@ body {
 
 .metrics-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 24px;
 }
 
@@ -330,6 +327,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 16px;
 }
 
 .section-title {
@@ -358,6 +356,7 @@ body {
 
 .table-wrapper {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     background: var(--card-bg);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -465,4 +464,86 @@ body {
     margin-top: 30px;
     font-size: 0.85rem;
     color: var(--text-muted);
+}
+
+/* ==========================================================================
+   8. MOBILE & TABLET RESPONSIVENESS (Media Queries)
+   ========================================================================== */
+@media (max-width: 900px) {
+    .header {
+        padding: 0 20px;
+        height: auto;
+        padding-top: 14px;
+        padding-bottom: 14px;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .nav {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+        overflow-x: auto;
+    }
+
+    .nav-item {
+        padding: 6px 12px;
+        font-size: 0.82rem;
+        white-space: nowrap;
+    }
+
+    .container {
+        margin-top: 20px;
+        padding: 0 16px;
+        gap: 20px;
+    }
+
+    .table-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-input {
+        width: 100%;
+    }
+
+    /* Kleinere Orbs für Smartphones für volle Performance */
+    .orb-1 {
+        width: 240px;
+        height: 240px;
+    }
+
+    .orb-2 {
+        width: 280px;
+        height: 280px;
+    }
+
+    .orb-3 {
+        width: 180px;
+        height: 180px;
+    }
+}
+
+@media (max-width: 480px) {
+    .brand {
+        font-size: 1.1rem;
+    }
+
+    .card-value {
+        font-size: 1.8rem;
+    }
+
+    .glass-card {
+        padding: 18px;
+    }
+
+    .alert-banner {
+        padding: 14px 16px;
+        font-size: 0.88rem;
+    }
+
+    .theme-toggle, .btn-sync {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
 }
